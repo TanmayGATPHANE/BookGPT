@@ -241,35 +241,7 @@ PORT=3004
 NODE_ENV=development
 ```
 
-## 🤝 **Contributing**
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📝 **License**
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 **Acknowledgments**
-
-- **Google Gemini** for providing free AI API access
-- **OpenAI** for backup AI capabilities
-- **React Team** for the amazing framework
-- **Tailwind CSS** for the utility-first styling approach
-- **Vite** for the fast development experience
-
-## 📞 **Support**
-
-For support and questions:
-- Create an issue on GitHub
-- Email: support@Digital 7Ms.com
-- Documentation: See `AI_INTEGRATION_GUIDE.md`
-
----
-
-**Built with ❤️ by the Digital 7Ms Team**
-
-*Transform your reading experience with AI-powered book analysis!*
