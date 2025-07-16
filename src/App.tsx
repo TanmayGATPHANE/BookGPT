@@ -3,13 +3,20 @@ import { AppProvider, useApp } from './context/AppContext';
 import { BookSelector } from './components/BookSelector';
 import { ChatWindow } from './components/ChatWindow';
 import { MessageInput } from './components/MessageInput';
+import { SignIn } from './components/SignIn';
+import { UserProfile } from './components/UserProfile';
 import './styles/index.css';
 
 function AppContent() {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
-  const { selectedBook, setSelectedBook, addMessage, messages } = useApp();
+  const { selectedBook, setSelectedBook, addMessage, messages, user } = useApp();
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Show sign-in page if user is not authenticated
+  if (!user) {
+    return <SignIn />;
+  }
 
   const handleQuickAction = async (prompt: string) => {
     if (selectedBook) {
@@ -161,7 +168,16 @@ function AppContent() {
 
       {/* Main Content Area */}
       <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-80'}`}>
-        <div className="chat-container relative h-screen flex flex-col">
+        {/* Top Header with User Profile */}
+        <div className="fixed top-0 right-0 z-30 p-4" style={{ 
+          left: isSidebarCollapsed ? '80px' : '320px',
+        }}>
+          <div className="flex justify-end">
+            <UserProfile />
+          </div>
+        </div>
+
+        <div className="chat-container relative h-screen flex flex-col pt-16">
           {!selectedBook ? (
             <div className="flex-1 flex items-center justify-center relative overflow-hidden">
               {/* Animated Background Elements */}
