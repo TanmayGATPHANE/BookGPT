@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { MessageInput } from './MessageInput';
 import { useApp } from '../context/AppContext';
+import { sendChatMessage } from '../utils/api';
 
 interface ChatWindowProps {
   initialMessage?: string;
@@ -35,10 +36,17 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
   const handleUserMessage = async (message: string) => {
     setHasInteracted(true);
     addMessage(message, false);
-    // Set loading state
-    setTimeout(() => {
-      addMessage("Let me help you analyze that aspect of the book...", true);
-    }, 1000);
+    
+    const result = await sendChatMessage({
+      message,
+      book: selectedBook ? {
+        title: selectedBook.title,
+        author: selectedBook.author,
+        id: selectedBook.id.toString()
+      } : undefined
+    });
+
+    addMessage(result.response, true);
   };
 
   return (

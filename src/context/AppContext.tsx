@@ -84,7 +84,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
       let userName = email.split('@')[0].replace(/[._]/g, ' ');
       
       // Special handling for demo account
-      if (email === 'demo@bookgpt.com' && password === 'demo123') {
+      if (email === 'demo@Digital7Ms.com' && password === 'demo123') {
         userName = 'Demo User';
       }
       

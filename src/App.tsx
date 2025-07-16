@@ -5,6 +5,7 @@ import { ChatWindow } from './components/ChatWindow';
 import { MessageInput } from './components/MessageInput';
 import { SignIn } from './components/SignIn';
 import { UserProfile } from './components/UserProfile';
+import { sendChatMessage } from './utils/api';
 import './styles/index.css';
 
 function AppContent() {
@@ -53,10 +54,18 @@ function AppContent() {
       setInputMessage(prompt);
       addMessage(prompt, false);
       setIsLoading(true);
-      // Simulate AI processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const result = await sendChatMessage({
+        message: prompt,
+        book: {
+          title: selectedBook.title,
+          author: selectedBook.author,
+          id: selectedBook.id.toString()
+        }
+      });
+
+      addMessage(result.response, true);
       setIsLoading(false);
-      addMessage("Let me help you analyze that aspect of the book...", true);
     }
   };
 
@@ -396,9 +405,6 @@ function AppContent() {
                 </div>
                 <div className="absolute bottom-1/4 left-1/5 animate-float-reverse opacity-4">
                   <div className="w-12 h-12 bg-orange-200 rounded-lg transform rotate-45 animate-pulse-gentle"></div>
-                </div>
-                <div className="absolute top-1/2 left-1/2 animate-float-slow opacity-3">
-                  <div className="w-20 h-20 border border-orange-400 rounded-full animate-spin-slow"></div>
                 </div>
 
                 {/* Subtle gradient overlays */}
