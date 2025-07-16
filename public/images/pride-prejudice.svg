@@ -1,0 +1,31 @@
+<svg width="200" height="280" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+  <!-- Book background -->
+  <rect width="200" height="280" fill="#7c3aed" rx="8"/>
+  
+  <!-- Book spine highlight -->
+  <rect x="0" y="0" width="20" height="280" fill="#6d28d9" rx="8"/>
+  
+  <!-- Title area -->
+  <rect x="30" y="50" width="140" height="80" fill="#fff" rx="4" opacity="0.9"/>
+  
+  <!-- Title text -->
+  <text x="100" y="75" text-anchor="middle" fill="#7c3aed" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Pride and</text>
+  <text x="100" y="95" text-anchor="middle" fill="#7c3aed" font-family="Arial, sans-serif" font-size="18" font-weight="bold">Prejudice</text>
+  
+  <!-- Author area -->
+  <rect x="30" y="180" width="140" height="25" fill="#fff" rx="4" opacity="0.9"/>
+  <text x="100" y="197" text-anchor="middle" fill="#7c3aed" font-family="Arial, sans-serif" font-size="12">Jane Austen</text>
+  
+  <!-- Decorative elements -->
+  <circle cx="100" cy="150" r="15" fill="#fbbf24" opacity="0.8"/>
+  <circle cx="80" cy="150" r="8" fill="#fbbf24" opacity="0.6"/>
+  <circle cx="120" cy="150" r="8" fill="#fbbf24" opacity="0.6"/>
+  
+  <!-- Decorative lines -->
+  <line x1="60" y1="230" x2="140" y2="230" stroke="#fbbf24" stroke-width="2" opacity="0.8"/>
+  <line x1="70" y1="240" x2="130" y2="240" stroke="#fbbf24" stroke-width="2" opacity="0.6"/>
+  
+  <!-- Corner decorations -->
+  <polygon points="50,220 60,225 50,230 45,225" fill="#fbbf24" opacity="0.7"/>
+  <polygon points="150,220 155,225 150,230 145,225" fill="#fbbf24" opacity="0.7"/>
+</svg>

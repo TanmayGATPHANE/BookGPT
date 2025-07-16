@@ -5,6 +5,7 @@ export interface Book {
   title: string;
   author: string;
   coverImage: string;
+  description: string;
 }
 
 export interface Message {
@@ -36,22 +37,25 @@ const AppContext = createContext<AppContextType | null>(null);
 
 export const SAMPLE_BOOKS: Book[] = [
   {
+    id: 2,
+    title: "The 7Ms of Digital Transformation",
+    author: "Arindam Dutta",
+    coverImage: "/images/7m-clear.png",
+    description: "A comprehensive guide to digital transformation through seven essential methodologies. Learn how to navigate the digital landscape and transform your business with proven strategies."
+  },
+  {
     id: 1,
     title: "The Great Gatsby",
     author: "F. Scott Fitzgerald",
-    coverImage: "https://example.com/gatsby.jpg"
-  },
-  {
-    id: 2,
-    title: "1984",
-    author: "George Orwell",
-    coverImage: "https://example.com/1984.jpg"
+    coverImage: "/images/gatsby.svg",
+    description: "A classic American novel set in the Jazz Age, exploring themes of wealth, love, and the American Dream through the eyes of narrator Nick Carraway."
   },
   {
     id: 3,
     title: "Pride and Prejudice",
     author: "Jane Austen",
-    coverImage: "https://example.com/pride.jpg"
+    coverImage: "/images/pride-prejudice.svg",
+    description: "A timeless romance following Elizabeth Bennet and Mr. Darcy as they navigate social expectations, personal growth, and the complexities of love in Regency England."
   }
 ];
 

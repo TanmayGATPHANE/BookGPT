@@ -2,8 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+  }
+  
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
 .bg-gradient-bg {
-  background: linear-gradient(135deg, #fff6e5 0%, #ffede0 100%);
+  background: linear-gradient(135deg, #fff6e5 0%, #ffede0 30%, #fdf2f8 60%, #fff6e5 100%);
+  background-size: 400% 400%;
+  animation: morphing-gradient 15s ease-in-out infinite;
 }
 
 @keyframes slideLeft {
@@ -227,6 +243,87 @@
   }
 }
 
+/* Enhanced background animations */
+@keyframes float-diagonal {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) translateX(5px) rotate(90deg);
+  }
+  50% {
+    transform: translateY(-5px) translateX(10px) rotate(180deg);
+  }
+  75% {
+    transform: translateY(-15px) translateX(-5px) rotate(270deg);
+  }
+}
+
+@keyframes orbit {
+  0% {
+    transform: rotate(0deg) translateX(30px) rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg) translateX(30px) rotate(-360deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+    box-shadow: 0 0 5px rgba(251, 146, 60, 0.3);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.6);
+  }
+}
+
+@keyframes morphing-gradient {
+  0% {
+    background-position: 0% 0%;
+    opacity: 0.3;
+  }
+  25% {
+    background-position: 100% 0%;
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 100% 100%;
+    opacity: 0.4;
+  }
+  75% {
+    background-position: 0% 100%;
+    opacity: 0.6;
+  }
+  100% {
+    background-position: 0% 0%;
+    opacity: 0.3;
+  }
+}
+
+/* Apply new animations */
+.animate-float-diagonal {
+  animation: float-diagonal 12s ease-in-out infinite;
+}
+
+.animate-orbit {
+  animation: orbit 20s linear infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.animate-morphing-gradient {
+  animation: morphing-gradient 10s ease-in-out infinite;
+  background-size: 300% 300%;
+}
+
 /* Apply animations with proper timing */
 .animate-float-slow {
   animation: float-slow 6s ease-in-out infinite;
@@ -265,6 +362,117 @@
 
 .animate-bounce-x {
   animation: bounce-x 2s ease-in-out infinite;
+}
+
+/* Mouse-responsive background animations */
+.mouse-responsive {
+  transition: transform 0.3s ease-out;
+  will-change: transform;
+}
+
+.mouse-responsive:hover {
+  transform: scale(1.1);
+}
+
+/* Enhanced particle animations */
+@keyframes particle-float-enhanced {
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px) rotate(0deg);
+    opacity: 0.1;
+  }
+  25% {
+    transform: translateY(-15px) translateX(8px) rotate(90deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-8px) translateX(-3px) rotate(180deg);
+    opacity: 0.2;
+  }
+  75% {
+    transform: translateY(-20px) translateX(3px) rotate(270deg);
+    opacity: 0.25;
+  }
+}
+
+/* Subtle background interaction */
+.bg-interactive {
+  background: linear-gradient(135deg, #fff6e5 0%, #ffede0 30%, #fdf2f8 60%, #fff6e5 100%);
+  background-size: 400% 400%;
+  animation: morphing-gradient 20s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+/* Enhanced gradient animations */
+@keyframes gradient-shift-enhanced {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    opacity: 0.2;
+  }
+  25% {
+    background-position: 100% 0%;
+    opacity: 0.3;
+  }
+  50% {
+    background-position: 100% 100%;
+    opacity: 0.25;
+  }
+  75% {
+    background-position: 0% 100%;
+    opacity: 0.35;
+  }
+}
+
+.animate-gradient-shift-enhanced {
+  animation: gradient-shift-enhanced 12s ease-in-out infinite;
+  background-size: 300% 300%;
+}
+
+/* Reduced opacity for less distraction */
+.animate-float-subtle {
+  animation: float-slow 8s ease-in-out infinite;
+  opacity: 0.1;
+}
+
+.animate-float-delayed-subtle {
+  animation: float-delayed 10s ease-in-out infinite;
+  animation-delay: 3s;
+  opacity: 0.08;
+}
+
+.animate-float-reverse-subtle {
+  animation: float-reverse 9s ease-in-out infinite;
+  animation-delay: 1.5s;
+  opacity: 0.06;
+}
+
+/* Subtle particle effects */
+.animate-particle-float-subtle {
+  animation: particle-float-enhanced 6s ease-in-out infinite;
+  opacity: 0.1;
+}
+
+/* Book selector icons enhancement */
+.book-selector-icon {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.book-selector-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  transition: left 0.5s;
+}
+
+.book-selector-icon:hover::before {
+  left: 100%;
 }
 
 /* Enhanced book selector animations */
