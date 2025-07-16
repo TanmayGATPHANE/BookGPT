@@ -1,0 +1,31 @@
+<svg width="200" height="280" viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg">
+  <!-- Book background -->
+  <rect width="200" height="280" fill="#fb923c" rx="8"/>
+  
+  <!-- Book spine highlight -->
+  <rect x="0" y="0" width="20" height="280" fill="#ea580c" rx="8"/>
+  
+  <!-- Title area -->
+  <rect x="30" y="40" width="140" height="80" fill="#fff" rx="4" opacity="0.9"/>
+  
+  <!-- Title text -->
+  <text x="100" y="70" text-anchor="middle" fill="#ea580c" font-family="Arial, sans-serif" font-size="24" font-weight="bold">The 7Ms</text>
+  <text x="100" y="95" text-anchor="middle" fill="#ea580c" font-family="Arial, sans-serif" font-size="16">of Digital</text>
+  <text x="100" y="115" text-anchor="middle" fill="#ea580c" font-family="Arial, sans-serif" font-size="16">Transformation</text>
+  
+  <!-- Author area -->
+  <rect x="30" y="180" width="140" height="30" fill="#fff" rx="4" opacity="0.9"/>
+  <text x="100" y="200" text-anchor="middle" fill="#ea580c" font-family="Arial, sans-serif" font-size="14">Arindam Dutta</text>
+  
+  <!-- Digital elements decoration -->
+  <circle cx="50" cy="150" r="8" fill="#fff" opacity="0.7"/>
+  <circle cx="150" cy="150" r="8" fill="#fff" opacity="0.7"/>
+  <circle cx="100" cy="140" r="6" fill="#fff" opacity="0.7"/>
+  <circle cx="100" cy="160" r="6" fill="#fff" opacity="0.7"/>
+  
+  <!-- Lines connecting circles -->
+  <line x1="50" y1="150" x2="100" y2="140" stroke="#fff" stroke-width="2" opacity="0.5"/>
+  <line x1="100" y1="140" x2="150" y2="150" stroke="#fff" stroke-width="2" opacity="0.5"/>
+  <line x1="100" y1="160" x2="50" y2="150" stroke="#fff" stroke-width="2" opacity="0.5"/>
+  <line x1="100" y1="160" x2="150" y2="150" stroke="#fff" stroke-width="2" opacity="0.5"/>
+</svg>

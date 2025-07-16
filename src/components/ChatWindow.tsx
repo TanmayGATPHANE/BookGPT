@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { MessageInput } from './MessageInput';
 import { useApp } from '../context/AppContext';
+import { sendChatMessage } from '../utils/api';
 
 interface ChatWindowProps {
   initialMessage?: string;
@@ -35,24 +36,31 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
   const handleUserMessage = async (message: string) => {
     setHasInteracted(true);
     addMessage(message, false);
-    // Set loading state
-    setTimeout(() => {
-      addMessage("Let me help you analyze that aspect of the book...", true);
-    }, 1000);
+    
+    const result = await sendChatMessage({
+      message,
+      book: selectedBook ? {
+        title: selectedBook.title,
+        author: selectedBook.author,
+        id: selectedBook.id.toString()
+      } : undefined
+    });
+
+    addMessage(result.response, true);
   };
 
   return (
-    <div className="relative flex flex-col h-full">
+    <div className="relative flex flex-col h-full z-10">
       {/* Messages Area */}
       {messages.length > 0 && (
         <div className="flex-1 space-y-4 mb-24">
           {messages.map((message, index) => (
             <div
               key={message.id}
-              className={`flex ${message.isAI ? 'justify-start' : 'justify-end'}`}
+              className={`flex ${message.isAI ? 'justify-start items-start' : 'justify-end'}`}
             >
               {message.isAI && (
-                <div className="w-8 h-8 mr-3 flex-shrink-0">
+                <div className="w-8 h-8 mr-3 flex-shrink-0 mt-1">
                   <div className="w-full h-full bg-orange-100 rounded-full flex items-center justify-center">
                     <svg className="w-5 h-5 text-orange-500" 
                          xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,15 +71,15 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
                 </div>
               )}
               <div className={`max-w-[80%] ${message.isAI ? 'bg-white' : 'bg-orange-50'} 
-                            rounded-lg p-4 shadow-sm animate-fade-in-up`}
+                            rounded-lg ${message.isAI ? 'p-3' : 'p-4'} shadow-sm animate-fade-in-up`}
                    style={{ animationDelay: `${index * 100}ms` }}>
                 <p className="text-gray-800 whitespace-pre-wrap">{message.content}</p>
               </div>
             </div>
           ))}
           {isLoading && (
-            <div className="flex justify-start animate-fade-in">
-              <div className="w-8 h-8 mr-3 flex-shrink-0">
+            <div className="flex justify-start items-start animate-fade-in">
+              <div className="w-8 h-8 mr-3 flex-shrink-0 mt-1">
                 <div className="w-full h-full bg-orange-100 rounded-full animate-pulse flex items-center justify-center">
                   <svg className="w-5 h-5 text-orange-500 animate-spin-slow" 
                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -82,7 +90,7 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
                   </svg>
                 </div>
               </div>
-              <div className="max-w-[80%] bg-white rounded-lg p-4 shadow-sm">
+              <div className="max-w-[80%] bg-white rounded-lg p-3 shadow-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                   <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
