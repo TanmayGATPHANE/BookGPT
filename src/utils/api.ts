@@ -17,7 +17,7 @@ interface ChatResponse {
 
 export const sendChatMessage = async (request: ChatRequest): Promise<ChatResponse> => {
   try {
-    const response = await fetch('http://localhost:3004/api/chat', {
+    const response = await fetch('http://localhost:3001/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const streamChatMessage = async (
   onError: (error: string) => void
 ): Promise<void> => {
   try {
-    const response = await fetch('http://localhost:3004/api/chat/stream', {
+    const response = await fetch('http://localhost:3001/api/chat/stream', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
