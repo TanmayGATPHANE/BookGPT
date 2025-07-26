@@ -14,6 +14,32 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
+
+  /* Scrollable container utilities */
+  .scrollable-content {
+    max-height: calc(100vh - 8rem);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #d97706 #f3f4f6;
+  }
+
+  .scrollable-content::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollable-content::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 3px;
+  }
+
+  .scrollable-content::-webkit-scrollbar-thumb {
+    background: #d97706;
+    border-radius: 3px;
+  }
+
+  .scrollable-content::-webkit-scrollbar-thumb:hover {
+    background: #b45309;
+  }
 }
 
 .bg-gradient-bg {
