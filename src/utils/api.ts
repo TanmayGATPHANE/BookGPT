@@ -17,7 +17,7 @@ interface ChatResponse {
 
 export const sendChatMessage = async (request: ChatRequest): Promise<ChatResponse> => {
   try {
-    const response = await fetch('http://localhost:3001/api/chat', {
+    const response = await fetch('http://localhost:3004/api/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ export const streamChatMessage = async (
   onError: (error: string) => void
 ): Promise<void> => {
   try {
-    const response = await fetch('http://localhost:3001/api/chat/stream', {
+    const response = await fetch('http://localhost:3004/api/chat/stream', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -105,5 +105,114 @@ export const streamChatMessage = async (
     }
   } catch (error) {
     onError(error instanceof Error ? error.message : 'Unknown error');
+  }
+};
+
+// Mission/Vision specific API
+interface MissionVisionRequest {
+  userInputs: {
+    currentScenario: string;
+    industry: string;
+    marketSegment: string;
+    intendedToBe: string;
+    goal: string;
+    additionalContext: string;
+  };
+}
+
+interface MissionVisionResponse {
+  options: Array<{
+    id: string;
+    approach: string;
+    mission: string;
+    vision: string;
+    rationale: string;
+  }>;
+  success: boolean;
+  error?: string;
+}
+
+// Stakeholder Motivation Types
+interface StakeholderInput {
+  name: string;
+  role: string;
+  department: string;
+  influenceLevel: 'High' | 'Medium' | 'Low';
+  interestLevel: 'High' | 'Medium' | 'Low';
+  currentStance: string;
+  keyConcerns: string;
+  communicationPreference: string;
+  successMotivation: string;
+}
+
+interface StakeholderMotivationRequest {
+  transformationContext: string;
+  successDefinition: string;
+  keyChallenges: string;
+  timeline: string;
+  stakeholders: StakeholderInput[];
+}
+
+interface StakeholderMotivationResponse {
+  strategy: any; // SMILEFrameworkOutput type from results component
+  success: boolean;
+  error?: string;
+}
+
+export const generateMissionVision = async (request: MissionVisionRequest): Promise<MissionVisionResponse> => {
+  try {
+    const response = await fetch('http://localhost:3004/api/mission-vision', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      options: data.options || [],
+      success: true,
+    };
+  } catch (error) {
+    console.error('Mission/Vision API Error:', error);
+    return {
+      options: [],
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+};
+
+export const generateStakeholderMotivationStrategy = async (request: StakeholderMotivationRequest): Promise<StakeholderMotivationResponse> => {
+  try {
+    const response = await fetch('http://localhost:3004/api/stakeholder-motivation', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      strategy: data.strategy,
+      success: true,
+    };
+  } catch (error) {
+    console.error('Stakeholder Motivation API Error:', error);
+    return {
+      strategy: null,
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
   }
 };

@@ -24,6 +24,12 @@ Digital 7Ms is a modern, AI-powered web application that transforms how you expl
 - **Quick Action Buttons** - Pre-defined prompts for common analysis types
 - **Responsive Design** - Works seamlessly across devices
 
+### 🔄 **Digital Transformation Workflows** (NEW)
+- **Module-Based Approach** - Structured workflows for "The 7Ms of Digital Transformation"
+- **Mission & Vision Creation** - AI-powered generation with book-grounded insights
+- **RAG Implementation** - Retrieval-Augmented Generation using book content
+- **Multiple Strategic Approaches** - Digital-first, customer-centric, and transformation-focused options
+
 ### 🎨 **Modern UI/UX**
 - **Beautiful Animations** - Smooth transitions and micro-interactions
 - **Collapsible Sidebar** - Optimized space utilization
@@ -165,6 +171,23 @@ Content-Type: application/json
 }
 ```
 
+### **Mission/Vision Workflow Endpoint** (NEW)
+```
+POST /api/mission-vision
+Content-Type: application/json
+
+{
+  "userInputs": {
+    "currentScenario": "We are a traditional manufacturing company...",
+    "industry": "Manufacturing",
+    "marketSegment": "B2B Automotive Parts", 
+    "goal": "Become a smart manufacturing leader...",
+    "intendedToBe": "Fully connected smart factory...",
+    "additionalContext": "200 employees, $50M revenue..."
+  }
+}
+```
+
 ## 📖 **Available Books**
 
 ### **Classic Literature**
@@ -172,9 +195,29 @@ Content-Type: application/json
 - **Pride and Prejudice** by Jane Austen
 
 ### **Modern Non-Fiction**
-- **The 7Ms of Digital Transformation** by Arindam Dutta
+- **The 7Ms of Digital Transformation** by Arindam Dutta ⭐ **(Workflow Mode Available)**
 
 *More books can be easily added through the `AppContext.tsx` file*
+
+## 🔄 **Workflow Mode Features**
+
+### **Module 1: Mission & Vision Creation**
+When "The 7Ms of Digital Transformation" book is selected, you can switch to **Workflow Mode** to access structured transformation modules:
+
+**Key Features:**
+- Structured input collection based on Chapter 2 methodology
+- RAG-enhanced AI responses grounded in book content
+- Three strategic approaches: Digital-First, Customer-Centric, Transformation-Focused
+- Interactive option selection and revision capabilities
+
+**Sample Inputs Available:** See `SAMPLE_INPUTS.md` for complete examples across different industries
+
+**How to Access:**
+1. Select "The 7Ms of Digital Transformation" book
+2. Click "Workflow Mode" toggle in top header
+3. Choose "Mission & Vision Creation" module
+4. Fill the structured form with your organization's details
+5. Review and select from generated options
 
 ## 🎯 **Usage Examples**
 
@@ -204,8 +247,13 @@ Content-Type: application/json
 - [x] Responsive design
 - [x] Animation system
 - [x] Error handling
+- [x] **Mission & Vision workflow module** (NEW)
+- [x] **RAG implementation with book content** (NEW)
+- [x] **Workflow mode toggle** (NEW)
 
 ### **🚧 Planned Features**
+- [ ] Additional workflow modules (Strategy, Roadmap, Metrics)
+- [ ] PDF content extraction for enhanced RAG
 - [ ] Book upload functionality
 - [ ] User library management
 - [ ] Conversation export

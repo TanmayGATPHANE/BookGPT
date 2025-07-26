@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { MessageInput } from './MessageInput';
 import { useApp } from '../context/AppContext';
-import { sendChatMessage } from '../utils/api';
+import { mockSendChatMessage } from '../mocks/mockService';
 
 interface ChatWindowProps {
   initialMessage?: string;
@@ -37,7 +37,7 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
     setHasInteracted(true);
     addMessage(message, false);
     
-    const result = await sendChatMessage({
+    const result = await mockSendChatMessage({
       message,
       book: selectedBook ? {
         title: selectedBook.title,

@@ -5,11 +5,15 @@ import { ChatWindow } from './components/ChatWindow';
 import { MessageInput } from './components/MessageInput';
 import { SignIn } from './components/SignIn';
 import { UserProfile } from './components/UserProfile';
-import { sendChatMessage } from './utils/api';
+import { WorkflowContainer } from './components/WorkflowContainer';
+import { mockSendChatMessage } from './mocks/mockService';
 import './styles/index.css';
+
+type ViewMode = 'chat' | 'workflow';
 
 function AppContent() {
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('chat');
   const { selectedBook, setSelectedBook, addMessage, messages, user } = useApp();
   const [inputMessage, setInputMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -55,7 +59,7 @@ function AppContent() {
       addMessage(prompt, false);
       setIsLoading(true);
       
-      const result = await sendChatMessage({
+      const result = await mockSendChatMessage({
         message: prompt,
         book: {
           title: selectedBook.title,
@@ -324,17 +328,50 @@ function AppContent() {
 
       {/* Main Content Area */}
       <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-16' : 'ml-80'}`}>
-        {/* Top Header with User Profile */}
+        {/* Top Header with User Profile and View Mode Toggle */}
         <div className="fixed top-0 right-0 z-30 p-4" style={{ 
           left: isSidebarCollapsed ? '64px' : '320px',
         }}>
-          <div className="flex justify-end">
-            <UserProfile />
+          <div className="flex items-center justify-between w-full">
+            {/* View Mode Toggle - Only show when 7Ms book is selected */}
+            {selectedBook && selectedBook.title === "The 7Ms of Digital Transformation" && (
+              <div className="flex items-center bg-white/90 backdrop-blur-sm rounded-lg border border-orange-200 p-1 shadow-sm">
+                <button
+                  onClick={() => setViewMode('chat')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'chat'
+                      ? 'bg-orange-600 text-white shadow-sm'
+                      : 'text-orange-600 hover:bg-orange-50'
+                  }`}
+                >
+                  Chat Mode
+                </button>
+                <button
+                  onClick={() => setViewMode('workflow')}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                    viewMode === 'workflow'
+                      ? 'bg-orange-600 text-white shadow-sm'
+                      : 'text-orange-600 hover:bg-orange-50'
+                  }`}
+                >
+                  Workflow Mode
+                </button>
+              </div>
+            )}
+            
+            <div className="flex justify-end">
+              <UserProfile />
+            </div>
           </div>
         </div>
 
         <div className="chat-container relative h-screen flex flex-col pt-16">
-          {!selectedBook ? (
+          {/* Render WorkflowContainer if workflow mode is selected for 7Ms book */}
+          {selectedBook && selectedBook.title === "The 7Ms of Digital Transformation" && viewMode === 'workflow' ? (
+            <div className="flex-1 overflow-y-auto">
+              <WorkflowContainer />
+            </div>
+          ) : !selectedBook ? (
             <div className="flex-1 flex items-center justify-center relative overflow-hidden">
               {/* Enhanced Animated Background Elements */}
               <div className="absolute inset-0 overflow-hidden">
