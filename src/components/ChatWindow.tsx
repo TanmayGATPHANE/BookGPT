@@ -53,7 +53,7 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
     <div className="relative flex flex-col h-full z-10">
       {/* Messages Area */}
       {messages.length > 0 && (
-        <div className="flex-1 space-y-4 mb-24">
+        <div className="flex-1 space-y-4 mb-24 px-4 md:px-0">
           {messages.map((message, index) => (
             <div
               key={message.id}
@@ -70,15 +70,15 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
                   </div>
                 </div>
               )}
-              <div className={`max-w-[80%] ${message.isAI ? 'bg-white' : 'bg-orange-50'} 
+              <div className={`max-w-[85%] md:max-w-[80%] ${message.isAI ? 'bg-white' : 'bg-orange-50'} 
                             rounded-lg ${message.isAI ? 'p-3' : 'p-4'} shadow-sm animate-fade-in-up`}
                    style={{ animationDelay: `${index * 100}ms` }}>
-                <p className="text-gray-800 whitespace-pre-wrap">{message.content}</p>
+                <p className="text-gray-800 whitespace-pre-wrap text-sm md:text-base">{message.content}</p>
               </div>
             </div>
           ))}
           {isLoading && (
-            <div className="flex justify-start items-start animate-fade-in">
+            <div className="flex justify-start items-start animate-fade-in px-4 md:px-0">
               <div className="w-8 h-8 mr-3 flex-shrink-0 mt-1">
                 <div className="w-full h-full bg-orange-100 rounded-full animate-pulse flex items-center justify-center">
                   <svg className="w-5 h-5 text-orange-500 animate-spin-slow" 
@@ -90,7 +90,7 @@ export function ChatWindow({ initialMessage, isLoading = false, isSidebarCollaps
                   </svg>
                 </div>
               </div>
-              <div className="max-w-[80%] bg-white rounded-lg p-3 shadow-sm">
+              <div className="max-w-[85%] md:max-w-[80%] bg-white rounded-lg p-3 shadow-sm">
                 <div className="flex items-center space-x-2">
                   <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
                   <div className="w-2 h-2 bg-orange-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>

@@ -15,6 +15,20 @@
     overflow: hidden;
   }
 
+  /* Mobile-specific utilities */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .safe-area-inset {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
   /* Scrollable container utilities */
   .scrollable-content {
     max-height: calc(100vh - 8rem);
@@ -39,6 +53,19 @@
 
   .scrollable-content::-webkit-scrollbar-thumb:hover {
     background: #b45309;
+  }
+
+  /* Mobile scrollable content */
+  .mobile-scrollable {
+    max-height: calc(100vh - 12rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  @media (max-width: 768px) {
+    .scrollable-content {
+      max-height: calc(100vh - 12rem);
+    }
   }
 }
 

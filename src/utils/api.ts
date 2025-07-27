@@ -121,16 +121,19 @@ interface MissionVisionRequest {
 }
 
 interface MissionVisionResponse {
-  options: Array<{
-    id: string;
-    approach: string;
-    mission: string;
-    vision: string;
-    rationale: string;
-  }>;
+  options: MissionVisionOption[];
   success: boolean;
   error?: string;
 }
+
+// Type alias for consistency
+type MissionVisionOption = {
+  id: string;
+  approach: string;
+  mission: string;
+  vision: string;
+  rationale: string;
+};
 
 // Stakeholder Motivation Types
 interface StakeholderInput {
@@ -155,6 +158,20 @@ interface StakeholderMotivationRequest {
 
 interface StakeholderMotivationResponse {
   strategy: any; // SMILEFrameworkOutput type from results component
+  success: boolean;
+  error?: string;
+}
+
+interface RevisionRequest {
+  type: 'mission-vision' | 'stakeholder-motivation';
+  feedback: string;
+  originalData: any; // Original inputs that generated the content
+  currentResults: any; // Current results to be revised
+}
+
+interface RevisionResponse {
+  options?: MissionVisionOption[]; // For mission-vision revisions
+  strategy?: any; // For stakeholder-motivation revisions
   success: boolean;
   error?: string;
 }
@@ -211,6 +228,48 @@ export const generateStakeholderMotivationStrategy = async (request: Stakeholder
     console.error('Stakeholder Motivation API Error:', error);
     return {
       strategy: null,
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+};
+
+export const requestRevision = async (request: RevisionRequest): Promise<RevisionResponse> => {
+  try {
+    const endpoint = request.type === 'mission-vision' 
+      ? 'http://localhost:3004/api/mission-vision/revise'
+      : 'http://localhost:3004/api/stakeholder-motivation/revise';
+    
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(request),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    
+    if (request.type === 'mission-vision') {
+      return {
+        options: data.options || [],
+        success: true,
+      };
+    } else {
+      return {
+        strategy: data.strategy,
+        success: true,
+      };
+    }
+  } catch (error) {
+    console.error('Revision API Error:', error);
+    return {
+      options: request.type === 'mission-vision' ? [] : undefined,
+      strategy: request.type === 'stakeholder-motivation' ? null : undefined,
       success: false,
       error: error instanceof Error ? error.message : 'Unknown error',
     };

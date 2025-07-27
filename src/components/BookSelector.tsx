@@ -33,7 +33,7 @@ export function BookSelector() {
           onMouseLeave={() => handleMouseLeave(book.id)}
         >
           <div
-            className={`p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
+            className={`p-3 md:p-4 rounded-lg border-2 cursor-pointer transition-all duration-200 ${
               selectedBook?.id === book.id
                 ? 'border-orange-500 bg-orange-50'
                 : 'border-gray-200 hover:border-orange-300 hover:bg-orange-25'
@@ -41,12 +41,12 @@ export function BookSelector() {
             onClick={() => setSelectedBook(book)}
           >
             <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-semibold text-gray-800">{book.title}</h3>
-                <p className="text-sm text-gray-600">{book.author}</p>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-gray-800 text-sm md:text-base truncate">{book.title}</h3>
+                <p className="text-xs md:text-sm text-gray-600 truncate">{book.author}</p>
               </div>
               <svg
-                className="w-5 h-5 text-orange-500"
+                className="w-4 h-4 md:w-5 md:h-5 text-orange-500 flex-shrink-0 ml-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -61,10 +61,10 @@ export function BookSelector() {
             </div>
           </div>
           
-          {/* Hover Tooltip */}
+          {/* Hover Tooltip - Hidden on mobile, shown on desktop */}
           {hoveredBook === book.id && (
             <div 
-              className="fixed z-50 bg-white border border-gray-300 rounded-lg shadow-lg p-4 w-80 animate-fade-in"
+              className="hidden md:block fixed z-50 bg-white border border-gray-300 rounded-lg shadow-lg p-4 w-80 animate-fade-in"
               style={{
                 left: `${tooltipPosition.x}px`,
                 top: `${tooltipPosition.y}px`

@@ -6,6 +6,7 @@ import { StakeholderMotivationForm, type StakeholderMotivationInputs } from './S
 import { StakeholderMotivationResults, type SMILEFrameworkOutput } from './StakeholderMotivationResults';
 import { mockGenerateMissionVision, mockGenerateStakeholderMotivationStrategy, mockSendChatMessage } from '../mocks/mockService';
 import { BookContentService } from '../utils/bookContentService';
+import { requestRevision } from '../utils/api';
 
 type WorkflowStep = 'selector' | 'mission-vision-form' | 'mission-vision-results' | 'stakeholder-motivation-form' | 'stakeholder-motivation-results';
 
@@ -18,6 +19,10 @@ export function WorkflowContainer({}: WorkflowContainerProps = {}) {
   const [isLoading, setIsLoading] = useState(false);
   const [missionVisionOptions, setMissionVisionOptions] = useState<MissionVisionOption[]>([]);
   const [stakeholderStrategy, setStakeholderStrategy] = useState<SMILEFrameworkOutput | null>(null);
+  
+  // Store original inputs for revision purposes
+  const [originalMissionVisionInputs, setOriginalMissionVisionInputs] = useState<MissionVisionInputs | null>(null);
+  const [originalStakeholderInputs, setOriginalStakeholderInputs] = useState<StakeholderMotivationInputs | null>(null);
   const [showChatInterface, setShowChatInterface] = useState(false);
   const [chatMessages, setChatMessages] = useState<Array<{role: 'user' | 'assistant', content: string}>>([]);
   const [chatInput, setChatInput] = useState('');
@@ -34,6 +39,9 @@ export function WorkflowContainer({}: WorkflowContainerProps = {}) {
 
   const handleMissionVisionSubmit = async (inputs: MissionVisionInputs) => {
     setIsLoading(true);
+    
+    // Store original inputs for potential revision
+    setOriginalMissionVisionInputs(inputs);
     
     try {
       // Generate mission/vision using RAG approach
@@ -97,20 +105,42 @@ export function WorkflowContainer({}: WorkflowContainerProps = {}) {
   };
 
   const handleRevisionRequest = async (feedback: string) => {
+    if (!originalMissionVisionInputs || missionVisionOptions.length === 0) {
+      console.error('No original inputs or options available for revision');
+      return;
+    }
+
     setIsLoading(true);
     
-    // In a real implementation, you would send the feedback to the API
-    // to generate revised options
-    console.log('Revision requested:', feedback);
-    
-    // For now, just show the loading state and then current options
-    setTimeout(() => {
+    try {
+      const revisionRequest = {
+        type: 'mission-vision' as const,
+        feedback,
+        originalData: originalMissionVisionInputs,
+        currentResults: missionVisionOptions
+      };
+
+      const response = await requestRevision(revisionRequest);
+      
+      if (response.success && response.options) {
+        setMissionVisionOptions(response.options);
+      } else {
+        console.error('Failed to get revised options:', response.error);
+        // Keep current options if revision fails
+      }
+    } catch (error) {
+      console.error('Error requesting revision:', error);
+      // Keep current options if revision fails
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   const handleStakeholderMotivationSubmit = async (inputs: StakeholderMotivationInputs) => {
     setIsLoading(true);
+    
+    // Store original inputs for potential revision
+    setOriginalStakeholderInputs(inputs);
     
     try {
       // Map the form inputs to the API request format
@@ -151,12 +181,54 @@ export function WorkflowContainer({}: WorkflowContainerProps = {}) {
   };
 
   const handleStakeholderRevisionRequest = async (feedback: string) => {
+    if (!originalStakeholderInputs || !stakeholderStrategy) {
+      console.error('No original inputs or strategy available for revision');
+      return;
+    }
+
     setIsLoading(true);
-    console.log('Stakeholder strategy revision requested:', feedback);
     
-    setTimeout(() => {
+    try {
+      // Map the stakeholder inputs to the API format for revision
+      const apiFormatData = {
+        transformationContext: originalStakeholderInputs.transformationScope,
+        successDefinition: originalStakeholderInputs.transformationScope,
+        keyChallenges: originalStakeholderInputs.currentChallenges,
+        timeline: originalStakeholderInputs.timeframe,
+        stakeholders: originalStakeholderInputs.keyStakeholders.map(stakeholder => ({
+          name: stakeholder.name,
+          role: stakeholder.role,
+          department: stakeholder.department,
+          influenceLevel: stakeholder.influence,
+          interestLevel: stakeholder.interest,
+          currentStance: stakeholder.currentStance,
+          keyConcerns: stakeholder.motivationFactors,
+          communicationPreference: stakeholder.communicationPreference,
+          successMotivation: stakeholder.motivationFactors
+        }))
+      };
+
+      const revisionRequest = {
+        type: 'stakeholder-motivation' as const,
+        feedback,
+        originalData: apiFormatData,
+        currentResults: stakeholderStrategy
+      };
+
+      const response = await requestRevision(revisionRequest);
+      
+      if (response.success && response.strategy) {
+        setStakeholderStrategy(response.strategy);
+      } else {
+        console.error('Failed to get revised strategy:', response.error);
+        // Keep current strategy if revision fails
+      }
+    } catch (error) {
+      console.error('Error requesting stakeholder revision:', error);
+      // Keep current strategy if revision fails
+    } finally {
       setIsLoading(false);
-    }, 2000);
+    }
   };
 
   const handleStakeholderExport = () => {

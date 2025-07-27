@@ -93,7 +93,7 @@ function AppContent() {
   ];
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-100/30 to-amber-50 flex page-load-animation">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-orange-100/30 to-amber-50 flex flex-col md:flex-row page-load-animation">
       {/* Global Background Animation - Always Present */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         {/* Gradient Background */}
@@ -139,10 +139,103 @@ function AppContent() {
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-orange-25/30 to-transparent animate-shimmer"></div>
       </div>
 
+      {/* Mobile Navigation Bar - Only visible on mobile */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm shadow-sm border-b border-orange-200/50">
+        <div className="flex items-center justify-between p-4">
+          <button
+            onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
+            className="w-10 h-10 rounded-lg bg-orange-50 hover:bg-orange-100 border border-orange-200 
+                     hover:border-orange-300 shadow-sm hover:shadow-md transition-all duration-200 
+                     flex items-center justify-center text-orange-600 hover:text-orange-700"
+            title={isSidebarCollapsed ? "Open menu" : "Close menu"}
+          >
+            <svg 
+              className="w-6 h-6 transition-transform duration-200"
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+            >
+              <path 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+                strokeWidth={2} 
+                d={isSidebarCollapsed ? "M4 6h16M4 12h16M4 18h16" : "M6 18L18 6M6 6l12 12"} 
+              />
+            </svg>
+          </button>
+          
+          {/* Mode Toggle */}
+          <div className="flex bg-white border border-orange-200 rounded-lg p-1">
+            <button
+              onClick={() => setViewMode('chat')}
+              className={`px-3 py-1 text-xs rounded transition-all duration-200 ${
+                viewMode === 'chat'
+                  ? 'bg-orange-100 text-orange-700 shadow-sm'
+                  : 'text-gray-600 hover:text-orange-600'
+              }`}
+            >
+              Chat
+            </button>
+            <button
+              onClick={() => setViewMode('workflow')}
+              className={`px-3 py-1 text-xs rounded transition-all duration-200 ${
+                viewMode === 'workflow'
+                  ? 'bg-orange-100 text-orange-700 shadow-sm'
+                  : 'text-gray-600 hover:text-orange-600'
+              }`}
+            >
+              Workflow
+            </button>
+          </div>
+
+          {/* Right Side: Book Info + User Profile */}
+          <div className="flex items-center space-x-3">
+            {selectedBook && (
+              <>
+                <div className="text-sm text-right">
+                  <div className="font-medium text-gray-800 truncate max-w-[100px]">{selectedBook.title}</div>
+                  <div className="text-gray-600 text-xs truncate max-w-[100px]">{selectedBook.author}</div>
+                </div>
+                <div className="w-8 h-8 rounded-lg overflow-hidden">
+                  <img 
+                    src={selectedBook.coverImage} 
+                    alt={selectedBook.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </>
+            )}
+            
+            {/* User Profile - Always visible on mobile */}
+            <div className="ml-2">
+              <UserProfile />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Collapsible Sidebar */}
-      <div className={`fixed left-0 top-0 h-screen z-40 bg-white/90 backdrop-blur-sm shadow-lg border-r border-orange-200/50 
-                    transition-all duration-300 ease-in-out ${isSidebarCollapsed ? 'w-16' : 'w-80'}`}>
-        <div className="h-full flex flex-col">
+      <div className={`bg-white/90 backdrop-blur-sm shadow-lg border-r border-orange-200/50 
+                    transition-all duration-300 ease-in-out
+                    ${/* Mobile styles - fixed positioning */ ''}
+                    md:relative md:z-auto
+                    ${/* Mobile collapsed/expanded */ ''}
+                    ${isSidebarCollapsed ? 
+                      'md:w-16 fixed left-0 z-40 -translate-x-full md:translate-x-0' : 
+                      'md:w-80 fixed left-0 z-40 w-80 translate-x-0'
+                    }
+                    ${/* Mobile positioning */ ''}
+                    top-16 md:top-0 h-[calc(100vh-4rem)] md:h-screen`}>
+        
+        {/* Mobile Overlay */}
+        {!isSidebarCollapsed && (
+          <div 
+            className="md:hidden fixed inset-0 bg-black/20 z-30"
+            onClick={() => setSidebarCollapsed(true)}
+          />
+        )}
+        
+        <div className="h-full flex flex-col relative z-40">
           {/* Book Selection Area */}
           <div className="p-4 flex-1 overflow-y-auto overflow-x-visible">
             {selectedBook ? (
@@ -327,11 +420,11 @@ function AppContent() {
       </div>
 
       {/* Main Content Area */}
-      <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-16' : 'ml-80'}`}>
-        {/* Top Header with User Profile and View Mode Toggle */}
-        <div className="fixed top-0 right-0 z-30 p-4" style={{ 
-          left: isSidebarCollapsed ? '64px' : '320px',
-        }}>
+      <div className={`flex-1 transition-all duration-300 
+                      ${/* Mobile margins - always full width with sidebar overlay */ ''}
+                      pt-16 md:pt-0`}>
+        {/* Top Header with User Profile and View Mode Toggle - Desktop Only */}
+        <div className="hidden md:block fixed top-0 right-0 z-30 p-4">
           <div className="flex items-center justify-between w-full">
             {/* View Mode Toggle - Only show when 7Ms book is selected */}
             {selectedBook && selectedBook.title === "The 7Ms of Digital Transformation" && (
@@ -359,7 +452,8 @@ function AppContent() {
               </div>
             )}
             
-            <div className="flex justify-end">
+            {/* User Profile - Always positioned on the far right */}
+            <div className="flex justify-end ml-4">
               <UserProfile />
             </div>
           </div>

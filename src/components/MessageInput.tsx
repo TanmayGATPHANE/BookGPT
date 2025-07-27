@@ -24,24 +24,24 @@ export function MessageInput({ onSendMessage, placeholder = 'Type your message..
   };
 
   return (
-    <div className={`flex items-end space-x-2 rounded-lg border p-3 ${className}`}>
+    <div className={`flex items-end space-x-2 rounded-lg border p-2 md:p-3 ${className}`}>
       <textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         onKeyPress={handleKeyPress}
         placeholder={placeholder}
-        className="flex-1 bg-transparent resize-none outline-none min-h-[44px] max-h-[200px] py-2 px-3"
+        className="flex-1 bg-transparent resize-none outline-none min-h-[40px] md:min-h-[44px] max-h-[150px] md:max-h-[200px] py-2 px-2 md:px-3 text-sm md:text-base"
         rows={1}
       />
       <button
         onClick={handleSend}
         disabled={!message.trim()}
-        className={`px-4 py-2 rounded-lg transition-all duration-200 
+        className={`px-3 md:px-4 py-2 rounded-lg transition-all duration-200 
                    ${message.trim() 
                      ? 'bg-orange-500 hover:bg-orange-600 text-white' 
                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'}`}
       >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 md:h-5 md:w-5" viewBox="0 0 20 20" fill="currentColor">
           <path d="M3 10a1 1 0 011-1h10.586l-3.293-3.293a1 1 0 011.414-1.414l5 5a1 1 0 010 1.414l-5 5a1 1 0 01-1.414-1.414L14.586 11H4a1 1 0 01-1-1z" />
         </svg>
       </button>

@@ -30,9 +30,19 @@ Digital 7Ms is a modern, AI-powered web application that transforms how you expl
 - **RAG Implementation** - Retrieval-Augmented Generation using book content
 - **Multiple Strategic Approaches** - Digital-first, customer-centric, and transformation-focused options
 
+### 📱 **Mobile Features**
+- **Responsive Layout** - Seamless experience across all devices
+- **Touch-Optimized** - Finger-friendly buttons and navigation
+- **Mobile Navigation** - Slide-out menu with overlay on mobile
+- **Adaptive Text Sizing** - Optimized typography for different screen sizes
+- **Safe Area Support** - Compatible with iPhone notches and Android navigation bars
+- **Fast Mobile Performance** - Optimized for mobile browsers
+
 ### 🎨 **Modern UI/UX**
 - **Beautiful Animations** - Smooth transitions and micro-interactions
-- **Collapsible Sidebar** - Optimized space utilization
+- **Responsive Design** - Optimized for mobile, tablet, and desktop
+- **Mobile-First Interface** - Touch-friendly navigation and interactions
+- **Collapsible Sidebar** - Optimized space utilization across devices
 - **Gradient Backgrounds** - Elegant orange-themed design
 - **User Authentication** - Secure sign-in system
 

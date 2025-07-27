@@ -13,6 +13,7 @@ app.use(express.json());
 const { chatHandler } = require('./src/backend/chat.cjs');
 const { missionVisionHandler } = require('./src/backend/missionVision.cjs');
 const { generateStakeholderMotivationStrategy } = require('./src/backend/stakeholderMotivation.cjs');
+const { handleMissionVisionRevision, handleStakeholderMotivationRevision } = require('./src/backend/revisionHandler.cjs');
 
 // Test endpoint
 app.get('/test', (req, res) => {
@@ -69,6 +70,41 @@ app.post('/api/stakeholder-motivation', async (req, res) => {
     });
   } catch (error) {
     console.error('💥 Stakeholder Motivation server error:', error);
+    res.status(500).json({
+      strategy: null,
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+// Revision endpoints
+app.post('/api/mission-vision/revise', async (req, res) => {
+  console.log('📥 Received mission/vision revision request:', req.body);
+  console.log('🔑 Environment check:');
+  console.log('  - GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? '✅ Set' : '❌ Missing');
+  
+  try {
+    await handleMissionVisionRevision(req, res);
+  } catch (error) {
+    console.error('💥 Mission/Vision revision server error:', error);
+    res.status(500).json({
+      options: [],
+      success: false,
+      error: error.message
+    });
+  }
+});
+
+app.post('/api/stakeholder-motivation/revise', async (req, res) => {
+  console.log('📥 Received stakeholder motivation revision request:', req.body);
+  console.log('🔑 Environment check:');
+  console.log('  - GEMINI_API_KEY:', process.env.GEMINI_API_KEY ? '✅ Set' : '❌ Missing');
+  
+  try {
+    await handleStakeholderMotivationRevision(req, res);
+  } catch (error) {
+    console.error('💥 Stakeholder Motivation revision server error:', error);
     res.status(500).json({
       strategy: null,
       success: false,
